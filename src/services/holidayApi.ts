@@ -27,7 +27,7 @@ interface HolidayApiResponse {
 export const holidayApi = {
   async getHolidays(province: string, year: number = new Date().getFullYear()): Promise<HolidayApiResponse> {
     if (year < 2014 || year > 2035) {
-      throw new Error(`Year ${year} is not supported. Please select a year between 2014 and 2035.`);
+      throw new Error(`Year ${year} is not supported by the Canada Holidays API. Please select a year between 2014 and 2035.`);
     }
     
     try {
@@ -41,7 +41,7 @@ export const holidayApi = {
         const status = error.response?.status;
         
         if (status === 404) {
-          throw new Error(`Province "${province}" not found. Please select a valid province.`);
+          throw new Error(`Province code "${province}" is invalid. Please select a valid Canadian province or territory.`);
         } else if (status === 400) {
           throw new Error(error.response?.data?.message || `Invalid request for ${province} in year ${year}.`);
         } else if (error.code === 'ECONNABORTED') {
